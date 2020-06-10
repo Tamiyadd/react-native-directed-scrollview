@@ -39,8 +39,8 @@ export class DirectedScrollView extends Component<IDirectedScrollViewProps> {
     }
 
     Object.keys(ScrollResponder.Mixin)
-      .filter(key => typeof ScrollResponder.Mixin[key] !== 'function')
-      .forEach(key => {
+      .filter((key) => typeof ScrollResponder.Mixin[key] !== 'function')
+      .forEach((key) => {
         (this as any)[key] = ScrollResponder.Mixin[key];
       });
   }
@@ -71,17 +71,17 @@ export class DirectedScrollView extends Component<IDirectedScrollViewProps> {
     );
   }
 
-  public zoomToStart({ animated }: { animated: boolean }) {
+  public zoomToStart({ animated, zoomScale }: { animated: boolean; zoomScale: number }) {
     UIManager.dispatchViewManagerCommand(
       this.getScrollableNode(),
       UIManager.getViewManagerConfig('DirectedScrollView').Commands.zoomToStart,
-      [animated !== false]
+      [animated !== false, zoomScale]
     );
   }
 
   public componentDidMount() {
     setTimeout(() => {
-      this.zoomToStart({ animated: false });
+      this.zoomToStart({ animated: false, zoomScale: this.props.zoomScale ? this.props.zoomScale : 1.0 });
     }, 0);
   }
 
